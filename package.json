@@ -1,5 +1,5 @@
 {
-  "name": "vue-form-design",
+  "name": "vue-form-devise",
   "description": "基于Vue的表单设计器，让表单开发简单而高效",
   "version": "1.0.0",
   "author": "mamie42",
@@ -13,7 +13,7 @@
   ],
   "repository": {
     "type": "git",
-    "url": "https://github.com/justineIce/vue-form-design.git"
+    "url": "https://github.com/justineIce/vue-form-design"
   },
   "main": "dist/formDesign.common.js",
   "scripts": {

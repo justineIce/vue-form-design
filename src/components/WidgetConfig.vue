@@ -356,8 +356,14 @@
       <!---------->
 
       <template v-if="data.type != 'grid'">
-        <el-form-item label="数据绑定Key">
+        <el-form-item label="数据绑定Key" v-if="fields.length == 0">
           <el-input v-model="data.model"></el-input>
+        </el-form-item>
+        <el-form-item label="数据绑定Key" v-else>
+          <el-select placeholder="请选择绑定的key" clearable v-model="data.model">
+            <el-option  v-for="(item,index) in fields" :key="`fields_${index}`" :label="item.label" :value="item.value">
+            </el-option>
+          </el-select>
         </el-form-item>
         <el-form-item label="操作属性">
           <el-checkbox v-model="data.options.readonly" v-if="Object.keys(data.options).indexOf('readonly')>=0">完全只读</el-checkbox>
@@ -394,11 +400,15 @@
         <el-checkbox v-model="data.auth">开启权限控制</el-checkbox>
         <el-row style="margin: 8px 0;" v-if="data.auth">
           <el-col :span="6">权限名称:</el-col>
-          <el-col :span="18"><el-input v-model="data.authTitle !=='' ? data.authTitle : data.name "></el-input></el-col>
+          <el-col :span="18">
+            <el-input v-model="data.authTitle !=='' ? data.authTitle : data.name "></el-input>
+          </el-col>
         </el-row>
         <el-row style="margin: 8px 0;" v-if="data.auth">
           <el-col :span="6">权限字段:</el-col>
-          <el-col :span="18"><el-input v-model="data.authField !=='' ? data.authField : data.model"></el-input></el-col>
+          <el-col :span="18">
+            <el-input v-model="data.authField !=='' ? data.authField : data.model"></el-input>
+          </el-col>
         </el-row>
       </el-form-item>
       <!---------->
@@ -413,7 +423,7 @@ export default {
   components: {
     Draggable
   },
-  props: ['data'],
+  props: ['data','fields'],
   data () {
     return {
       validator: {

@@ -2,6 +2,7 @@
   <el-container class="fm2-container">
     <el-main class="fm2-main">
       <el-container>
+        <!--控件区域-->
         <el-aside width="250px">
           <div class="components-list">
             <template v-if="basicFields.length">
@@ -10,9 +11,7 @@
                 v-bind="{group:{ name:'people', pull:'clone',put:false},sort:false, ghostClass: 'ghost'}"
                 @end="handleMoveEnd"
                 @start="handleMoveStart"
-                :move="handleMove"
-              >
-
+                :move="handleMove">
                 <li v-if="basicFields.indexOf(item.type)>=0" class="form-edit-widget-label" :class="{'no-put': item.type == 'divider'}" v-for="(item, index) in basicComponents" :key="index">
                   <a>
                     <i class="icon iconfont" :class="item.icon"></i>
@@ -27,9 +26,7 @@
                 v-bind="{group:{ name:'people', pull:'clone',put:false},sort:false, ghostClass: 'ghost'}"
                 @end="handleMoveEnd"
                 @start="handleMoveStart"
-                :move="handleMove"
-              >
-
+                :move="handleMove">
                 <li v-if="advanceFields.indexOf(item.type) >= 0" class="form-edit-widget-label" :class="{'no-put': item.type == 'table'}" v-for="(item, index) in advanceComponents" :key="index">
                   <a>
                     <i class="icon iconfont" :class="item.icon"></i>
@@ -44,9 +41,7 @@
                 v-bind="{group:{ name:'people', pull:'clone',put:false},sort:false, ghostClass: 'ghost'}"
                 @end="handleMoveEnd"
                 @start="handleMoveStart"
-                :move="handleMove"
-              >
-
+                :move="handleMove">
                 <li v-if="layoutFields.indexOf(item.type) >=0" class="form-edit-widget-label no-put" v-for="(item, index) in layoutComponents" :key="index">
                   <a>
                     <i class="icon iconfont" :class="item.icon"></i>
@@ -57,6 +52,8 @@
             </template>
           </div>
         </el-aside>
+
+        <!--内容区域-->
         <el-container class="center-container" direction="vertical">
           <el-header class="btn-bar" style="height: 45px;">
             <slot name="action">
@@ -72,6 +69,7 @@
           </el-main>
         </el-container>
 
+        <!--字段、表单设置区域-->
         <el-aside class="widget-config-container">
           <el-container>
             <el-header height="45px">
@@ -79,71 +77,42 @@
               <div class="config-tab" :class="{active: configTab=='form'}" @click="handleConfigSelect('form')">表单属性</div>
             </el-header>
             <el-main class="config-content">
-              <widget-config v-show="configTab=='widget'" :data="widgetFormSelect"></widget-config>
-              <form-config v-show="configTab=='form'" :data="widgetForm.config"></form-config>
+              <widget-config v-show="configTab=='widget'" :data="widgetFormSelect" :fields="widgetForm.config.fields "></widget-config>
+              <form-config v-show="configTab=='form'" :data="widgetForm.config" :onlineForms="onlineForms" @on-change="handleFormChange"></form-config>
             </el-main>
           </el-container>
-
         </el-aside>
 
         <!--预览弹出框-->
-        <cus-dialog
-          :visible="previewVisible"
-          @on-close="previewVisible = false"
-          ref="widgetPreview"
-          width="1000px"
-          form
-        >
+        <cus-dialog :visible="previewVisible" @on-close="previewVisible = false" ref="widgetPreview" width="1000px" form>
           <generate-form insite="true" @on-change="handleDataChange" v-if="previewVisible" :data="widgetForm" :value="widgetModels" :remote="remoteFuncs" ref="generateForm">
-
             <template v-slot:blank="scope">
               宽度：<el-input v-model="scope.model.blank.width" style="width: 100px"></el-input>
               高度：<el-input v-model="scope.model.blank.height" style="width: 100px"></el-input>
             </template>
           </generate-form>
-
           <template slot="action">
             <el-button type="primary" @click="handleTest">获取数据</el-button>
             <el-button @click="handleReset">重置</el-button>
           </template>
         </cus-dialog>
+
         <!--导入JSON弹出框-->
-        <cus-dialog
-          :visible="uploadVisible"
-          @on-close="uploadVisible = false"
-          @on-submit="handleUploadJson"
-          ref="uploadJson"
-          width="800px"
-          form
-        >
+        <cus-dialog :visible="uploadVisible" @on-close="uploadVisible = false" @on-submit="handleUploadJson" ref="uploadJson" width="800px" form>
           <el-alert type="info" title="JSON格式如下，直接复制生成的json覆盖此处代码点击确定即可"></el-alert>
           <div id="uploadeditor" style="height: 400px;width: 100%;">{{jsonEg}}</div>
         </cus-dialog>
 
         <!--生成JSON弹出框-->
-        <cus-dialog
-          :visible="jsonVisible"
-          @on-close="jsonVisible = false"
-          ref="jsonPreview"
-          width="800px"
-          form
-        >
-
+        <cus-dialog :visible="jsonVisible" @on-close="jsonVisible = false" ref="jsonPreview" width="800px" form>
           <div id="jsoneditor" style="height: 400px;width: 100%;">{{jsonTemplate}}</div>
-
           <template slot="action">
             <el-button type="primary" class="json-btn" :data-clipboard-text="jsonCopyValue">复制数据</el-button>
           </template>
         </cus-dialog>
+
         <!--生成代码-->
-        <cus-dialog
-          :visible="codeVisible"
-          @on-close="codeVisible = false"
-          ref="codePreview"
-          width="800px"
-          form
-          :action="false"
-        >
+        <cus-dialog :visible="codeVisible" @on-close="codeVisible = false" ref="codePreview" width="800px" form :action="false">
           <div id="codeeditor" style="height: 500px; width: 100%;">{{htmlTemplate}}</div>
         </cus-dialog>
       </el-container>
@@ -176,37 +145,72 @@ export default {
     GenerateForm
   },
   props: {
+    /**
+     *是否显示预览按钮
+     */
     preview: {
       type: Boolean,
       default: false
     },
+    /**
+     *是否显示生成代码按钮
+     */
     generateCode: {
       type: Boolean,
       default: false
     },
+    /**
+     *是否显示生成JSON按钮
+     */
     generateJson: {
       type: Boolean,
       default: false
     },
+    /**
+     *是否显示导入JSON按钮
+     */
     upload: {
       type: Boolean,
       default: false
     },
+    /**
+     * 是否显示清空按钮
+     */
     clearable: {
       type: Boolean,
       default: false
     },
+    /**
+     * 设计器左侧基础字段配置，如果不设置该字段默认展示所有基础字段组件
+     * ['input', 'textarea', 'number', 'radio', 'checkbox', 'time', 'date', 'rate', 'color', 'select', 'switch', 'slider', 'text']
+     */
     basicFields: {
       type: Array,
       default: () => ['input', 'textarea', 'number', 'radio', 'checkbox', 'time', 'date', 'rate', 'color', 'select', 'switch', 'slider', 'text']
     },
+    /**
+     * 设计器左侧高级字段配置，如果不设置该字段默认展示所有高级字段组件
+     *['blank', 'fileupload', 'imgupload', 'editor', 'cascader', 'table']
+     */
     advanceFields: {
       type: Array,
       default: () => ['blank', 'imgupload', 'editor', 'cascader']
     },
+    /**
+     * 设计器左侧布局字段配置，如果不设置该字段默认展示所有布局字段组件
+     * ['grid', 'tabs', 'divider']
+     */
     layoutFields: {
       type: Array,
       default: () => ['grid']
+    },
+    /**
+     * 表单数据
+     * [{label:'',value:'',children:[]}]
+     */
+    onlineForms:{
+      type: Array,
+      default: () => []
     }
   },
   data () {
@@ -218,6 +222,8 @@ export default {
       widgetForm: {
         list: [],
         config: {
+          onlineForm:'',
+          fields:[],
           labelWidth: 100,
           labelPosition: 'top',
           size: 'small',
@@ -311,9 +317,6 @@ export default {
 
   },
   methods: {
-    handleGoGithub () {
-      window.location.href = 'https://github.com/GavinZhuLei/vue-form-making'
-    },
     handleConfigSelect (value) {
       this.configTab = value
     },
@@ -326,6 +329,7 @@ export default {
     handleMove () {
       return true
     },
+    //预览
     handlePreview () {
       console.log(this.widgetForm)
       this.previewVisible = true
@@ -341,6 +345,7 @@ export default {
     handleReset () {
       this.$refs.generateForm.reset()
     },
+    //生成JSON
     handleGenerateJson () {
       this.jsonVisible = true
       this.jsonTemplate = this.widgetForm
@@ -359,6 +364,7 @@ export default {
         this.jsonCopyValue = JSON.stringify(this.widgetForm)
       })
     },
+    //生成代码
     handleGenerateCode () {
       this.codeVisible = true
       this.htmlTemplate = generateCode(JSON.stringify(this.widgetForm))
@@ -367,6 +373,7 @@ export default {
         editor.session.setMode("ace/mode/html")
       })
     },
+    //导入JSON
     handleUpload () {
       this.uploadVisible = true
       this.$nextTick(() => {
@@ -383,6 +390,7 @@ export default {
         this.$refs.uploadJson.end()
       }
     },
+    //清空
     handleClear () {
       this.widgetForm = {
         list: [],
@@ -391,24 +399,12 @@ export default {
           labelPosition: 'right',
           size: 'small',
           customClass: '',
-          onlineForm:''
-        },
+          onlineForm:'',
+          fields:[],
+        }
       }
 
       this.widgetFormSelect = {}
-    },
-    getJSON () {
-      return this.widgetForm
-    },
-    getHtml () {
-      return generateCode(JSON.stringify(this.widgetForm))
-    },
-    setJSON (json) {
-      this.widgetForm = json
-
-      if (json.list.length> 0) {
-        this.widgetFormSelect = json.list[0]
-      }
     },
     handleInput (val) {
       console.log(val)
@@ -416,7 +412,37 @@ export default {
     },
     handleDataChange (field, value, data) {
       console.log(field, value, data)
-    }
+    },
+    //表单值改变事件
+    handleFormChange (data) {
+      if(data.onlineForm !=""){
+        let forms = this.onlineForms.find(obj => obj.value == data.onlineForm)
+        this.widgetForm.config.fields = forms.children
+      }
+    },
+    /**
+     *设置设计器的配置信息
+     */
+    getJSON () {
+      return this.widgetForm
+    },
+    /**
+     *获取设计器生成的可以直接使用的HTML代码
+     */
+    getHtml () {
+      return generateCode(JSON.stringify(this.widgetForm))
+    },
+    /**
+     * 获取设计器配置的JSON数据
+     * @param json
+     */
+    setJSON (json) {
+      this.widgetForm = json
+
+      if (json.list.length> 0) {
+        this.widgetFormSelect = json.list[0]
+      }
+    },
   },
   watch: {
     widgetForm: {

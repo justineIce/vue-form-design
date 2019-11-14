@@ -2,8 +2,8 @@
   <div class="form-config-container">
     <el-form label-position="top">
       <el-form-item label="online表单">
-        <el-select placeholder="请选择online表单" v-model="data.onlineForm">
-          <el-option label="学生信息" value="student"></el-option>
+        <el-select placeholder="请选择online表单" clearable v-model="data.onlineForm" @change="handleOnlineFormChange">
+          <el-option :label="item.label" :value="item.value" v-for="(item,index) in onlineForms" :key="`student_${index}`"></el-option>
         </el-select>
       </el-form-item>
       <el-form-item label="标签对齐方式">
@@ -31,6 +31,16 @@
 
 <script>
 export default {
-  props: ['data']
+  props: ['data','onlineForms'],
+  methods:{
+    /**
+     * online表单值改变事件
+     * @param val
+     */
+    handleOnlineFormChange(val){
+      console.log(this.data)
+      this.$emit("on-change", this.data)
+    }
+  }
 }
 </script>
