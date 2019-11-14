@@ -190,11 +190,11 @@ export default {
     },
     /**
      * 设计器左侧高级字段配置，如果不设置该字段默认展示所有高级字段组件
-     *['blank', 'fileupload', 'imgupload', 'editor', 'cascader', 'table']
+     *['blank' 'imgupload', 'editor', 'cascader']
      */
     advanceFields: {
       type: Array,
-      default: () => ['blank', 'imgupload', 'editor', 'cascader']
+      default: () => ['blank', 'imgupload', 'editor', 'cascader','buttons']
     },
     /**
      * 设计器左侧布局字段配置，如果不设置该字段默认展示所有布局字段组件

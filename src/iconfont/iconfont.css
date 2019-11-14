@@ -6,7 +6,14 @@
   url('iconfont.ttf?t=1567932943787') format('truetype'), /* chrome, firefox, opera, Safari, Android, iOS 4.2+ */
   url('iconfont.svg?t=1567932943787#iconfont') format('svg'); /* iOS 4.1- */
 }
-
+@font-face {font-family: "iconfont";
+  src: url('iconfont_dl.eot?t=1573743381147'); /* IE9 */
+  src: url('iconfont_dl.eot?t=1573743381147#iefix') format('embedded-opentype'), /* IE6-IE8 */
+  url('data:application/x-font-woff2;charset=utf-8;base64,d09GMgABAAAAAAN0AAsAAAAAB5gAAAMmAAEAAAAAAAAAAAAAAAAAAAAAAAAAAAAAHEIGVgCCcAqDJIJ8ATYCJAMICwYABCAFhG0HLRufBhHVm1vIfh7YbtHOjOuaumxH6ckoSu89BxGzSbNAEgJvZtapSXUJ/0MfAJuboWtUhGJJzoP/5RlJx07z6+Jw2hSfD5TL3IO6AOOAAhprU6ABFVBg3DB2E+VBHIYAjlTkQCpUqtEAiwGMEkB6dO3cFpuSY2pSBYsQLllokDmEsGqqugTM5t+Xj+QTC4qQBmTU6VSxA2XerIERekwwpgVFwBhPC2jLQAM5AAPSoFRfCx36c6Bxjt+QDtaVKvBmTRBQ+mr/eCAgYUByDABSiPRzYmDmqf5SAWAACywDNvW6AWyyOPGSOpsg9XAnq24UinXgWgpWXi/oiTX24ZupCxb3kMXbfezpW2HMFhdr2raeTJdIYtZxfaGn12YZuwhcsMm5aQtgzELvp29OvHi5jG3kp29MOGbBAlHb0EmsZUzjappG9bXTF0vetnjsosY9uI06UzjdoRVqGiZcCLR+ugzavaBKmLJ07EAcQez/vEOKUn8V19fU/4VuH/kfu2LcOHEaxvmPvXHiVny/WoyKG6di7NJbm0p7p0xNK1xyetJIjWlnVYxCfqkfKb9pvljp+h14EytVl1LJ40dihLvdipE6fZUMedPH8zGSbp/Z3U6OMTiacaifGnuqH5rRToo5eLGKDHXtK3ZLX6GuW1jUjo0OjTU12q50m8rpG7QLxUs03g2lDMCpj6sz/+o3xH6+8XDr2CV+W28AuP9zRkIuNbQzgr0jg8CfYbSsMy4LKJSxGaVhxTLsHZc4HBDI5ng86WtMCLFWsDpDBEWElKCxZEAabA4I4SkAYSylwZGdyss98emHRkwUyMZEAYQ47AZFLI6CJg6XkQb7GEIk4jOEiSMaHI0k/oaeIpNYVZ5xF7zg+IM9cyKkEhWk3lC/w85JFse9kJt1wdSP2dCGCXmMKe2jZxEC4hxhFY7DEDIUzg5P6Y1IWYaByl7Unzl2ivKMu+AFHH/AnjkRbS4q9/kb6nfYuaamQ/5CbrZ9YKJnbIHc+KlVzbU80z56RoQA4hyBVdBigP4MlPJ+Dk/pMT28ZWGQGlFbfj+/MD7dFsABJEpgjka3k9R1AAA=') format('woff2'),
+  url('iconfont_dl.woff?t=1573743381147') format('woff'),
+  url('iconfont_dl.ttf?t=1573743381147') format('truetype'), /* chrome, firefox, opera, Safari, Android, iOS 4.2+ */
+  url('iconfont_dl.svg?t=1573743381147#iconfont') format('svg'); /* iOS 4.1- */
+}
 .iconfont {
   font-family: "iconfont" !important;
   font-size: 16px;
@@ -185,5 +192,8 @@
 
 .icon-tabs:before {
   content: "\e65f";
+}
+.icon-btn:before {
+  content: "\e6a0";
 }
 

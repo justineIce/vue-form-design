@@ -405,6 +405,30 @@ export const advanceComponents = [
     auth:false,
     authTitle:'',
     authField:''
+  },
+  {
+    type: "buttons",
+    name: "按钮",
+    className: "form-buttons",
+    hideLabel: true,
+    icon: "icon-btn",
+    hideTitle: true,
+    options: {
+      text: "按钮",
+      icon: "",
+      type: "default",
+      btnSize: "default",
+      plain: false,
+      round: false,
+      circle: false,
+      disabled: false,
+    },
+    event: {
+      click: ""
+    },
+    auth:false,
+    authTitle:'',
+    authField:''
   }
 ]
 
