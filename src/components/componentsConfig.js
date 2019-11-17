@@ -456,5 +456,38 @@ export const layoutComponents = [
     auth:false,
     authTitle:'',
     authField:''
+  },
+  {
+    type: 'table',
+    name: '表格',
+    icon: 'icon-biaoge',
+    className: 'form-table',
+    hideLabel: true,
+    hideTitle: true,
+    options:{
+    },
+    search:{
+
+    },
+    table:{
+      data:[{name:'小红',sex:12},{name:'小云',sex:13}],
+      columns:[
+        {title:'列一',key:'column1'},
+        {title:'列二',key:'column2'}
+      ],
+      selectFields:[],
+      options:{
+        border:true
+      },
+    },
+    pagination:{
+      background:true,
+      pageSize:10,
+      total:10,
+      currentPage:1,
+      layout:'total, sizes, prev, pager, next, jumper',
+      disabled:false,
+      hideOnSinglePage:false
+    }
   }
 ]

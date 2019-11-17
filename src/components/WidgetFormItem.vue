@@ -220,6 +220,35 @@
             </div>
         </template>
 
+        <!--按钮-->
+          <template v-if="element.type == 'buttons'">
+              <el-button :size="element.options.btnSize"
+                         :type="element.options.type"
+                         :icon="element.options.icon"
+                         :plain="element.options.plain"
+                         :round="element.options.round"
+                         :circle="element.options.circle">
+                  {{element.name}}
+              </el-button>
+          </template>
+      <!--表格-->
+      <template v-if="element.type == 'table'">
+          <div>
+              <!--表格控件-->
+              <el-table v-bind="element.table.options" :data="element.table.data">
+                  <el-table-column v-for="(item,index) in element.table.columns"
+                                   :key="`table_column_${index}`"
+                                   :label="item.title"
+                                   :prop="item.key">
+                  </el-table-column>
+              </el-table>
+              <!--翻页控件-->
+              <el-pagination style="margin-top: 20px;" v-bind="element.pagination">
+              </el-pagination>
+          </div>
+      </template>
+
+
         <!--&lt;!&ndash;文件&ndash;&gt;-->
         <!--<template v-if="element.type == 'fileupload'">-->
 

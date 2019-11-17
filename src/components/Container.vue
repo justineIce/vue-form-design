@@ -202,7 +202,7 @@ export default {
      */
     layoutFields: {
       type: Array,
-      default: () => ['grid']
+      default: () => ['grid','table']
     },
     /**
      * 表单数据

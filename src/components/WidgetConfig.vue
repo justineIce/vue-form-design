@@ -1,7 +1,7 @@
 <template>
   <div v-if="show">
     <el-form label-position="top">
-      <el-form-item label="标题" v-if="data.type!='grid'">
+      <el-form-item label="标题" v-if="data.type!='grid' && data.type !='buttons' && data.type !='table'">
         <el-input v-model="data.name"></el-input>
         <!----新增---->
         <div style="text-align: right;" v-if="Object.keys(data).indexOf('hideTitle')>=0">
@@ -9,6 +9,51 @@
         </div>
         <!---------->
       </el-form-item>
+      <!--按钮相关属性-->
+      <div v-if="data.type == 'buttons'">
+        <el-form-item label="显示文字" >
+          <el-input v-model="data.name"></el-input>
+        </el-form-item>
+        <el-form-item label="按钮尺寸" >
+          <el-select v-model="data.options.btnSize">
+            <el-option label="默认尺寸" value="default"></el-option>
+            <el-option label="中等按钮" value="medium"></el-option>
+            <el-option label="小型按钮" value="small"></el-option>
+            <el-option label="超小按钮" value="mini"></el-option>
+          </el-select>
+        </el-form-item>
+        <el-form-item label="按钮类型" >
+          <el-select v-model="data.options.type">
+            <el-option label="默认按钮" value="default"></el-option>
+            <el-option label="主要按钮" value="primary"></el-option>
+            <el-option label="成功按钮" value="success"></el-option>
+            <el-option label="信息按钮" value="info"></el-option>
+            <el-option label="警告按钮" value="warning"></el-option>
+            <el-option label="危险按钮" value="danger"></el-option>
+            <el-option label="文字按钮" value="text"></el-option>
+          </el-select>
+        </el-form-item>
+        <el-form-item label="图标类名" >
+          <el-input v-model="data.options.icon"></el-input>
+        </el-form-item>
+        <el-form-item label="属性" >
+          <el-checkbox v-model="data.options.plain">朴素按钮</el-checkbox>
+          <el-checkbox v-model="data.options.round">圆角按钮</el-checkbox>
+          <el-checkbox v-model="data.options.circle">圆形按钮</el-checkbox>
+          <el-checkbox v-model="data.options.disabled">禁用</el-checkbox>
+        </el-form-item>
+      </div>
+      <!--表格相关属性-->
+      <div v-if="data.type =='table'">
+        <el-form-item label="表格显示字段">
+          <span v-if="fields.length == 0" style="color: grey;padding-left: 15px;">请先选择online表单</span>
+          <el-checkbox-group v-else v-model="data.table.selectFields" @change="handleTableFieldsChange">
+            <el-checkbox v-for="(item,index) in fields"
+                         :key="`table_field_${index}`"
+                         :label="item.value">{{item.label}}</el-checkbox>
+          </el-checkbox-group>
+        </el-form-item>
+      </div>
       <el-form-item label="宽度" v-if="Object.keys(data.options).indexOf('width')>=0">
         <el-input v-model="data.options.width"></el-input>
       </el-form-item>
@@ -355,7 +400,7 @@
       </el-form-item>
       <!---------->
 
-      <template v-if="data.type != 'grid'">
+      <template v-if="data.type != 'grid' && data.type != 'buttons' && data.type !='table'">
         <el-form-item label="数据绑定Key" v-if="fields.length == 0">
           <el-input v-model="data.model"></el-input>
         </el-form-item>
@@ -496,7 +541,6 @@ export default {
 
       }
     },
-
     validateRequired (val) {
       if (val) {
         this.validator.required = {required: true, message: `${this.data.name}必须填写`}
@@ -508,7 +552,6 @@ export default {
         this.generateRule()
       })
     },
-
     validateDataType (val) {
       if (!this.show) {
         return false
@@ -534,6 +577,18 @@ export default {
       }
 
       this.generateRule()
+    },
+    // 表格字段
+    handleTableFieldsChange(val){
+      console.log(val)
+      this.data.table.columns=[]
+      val.forEach(obj=>{
+        let item =this.fields.find(field=>field.value == obj)
+        this.data.table.columns.push({
+          title:item.label,
+          key:item.value
+        })
+      })
     }
   },
   watch: {
