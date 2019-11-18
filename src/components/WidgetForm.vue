@@ -2,7 +2,6 @@
   <div class="widget-form-container">
     <div v-if="data.list.length == 0" class="form-empty">从左侧拖拽来添加字段</div>
     <el-form :size="data.config.size" label-suffix=":" :label-position="data.config.labelPosition" :label-width="data.config.labelWidth + 'px'">
-
       <draggable class=""
         v-model="data.list"
         v-bind="{group:'people', ghostClass: 'ghost',animation: 200, handle: '.drag-widget'}"
@@ -11,6 +10,7 @@
 
         <transition-group name="fade" tag="div" class="widget-form-list">
           <template v-for="(element, index) in data.list">
+            <!--栅格布局-->
             <template v-if="element.type == 'grid'">
                 <el-row class="widget-col widget-view" v-if="element && element.key" :key="element.key"
                   type="flex"
@@ -20,14 +20,12 @@
                   :align="element.options.align"
                   @click.native="handleSelectWidget(index)">
                   <el-col  v-for="(col, colIndex) in element.columns" :key="colIndex" :span="col.span ? col.span : 0">
-
                       <draggable
                         v-model="col.list"
                         :no-transition-on-drag="true"
                         v-bind="{group:'people', ghostClass: 'ghost',animation: 200, handle: '.drag-widget'}"
                         @end="handleMoveEnd"
-                        @add="handleWidgetColAdd($event, element, colIndex)"
-                      >
+                        @add="handleWidgetColAdd($event, element, colIndex)">
                         <transition-group name="fade" tag="div" class="widget-col-list">
                           <widget-form-item
                             v-for="(el, i) in col.list"
@@ -39,7 +37,6 @@
                             :data="col">
                           </widget-form-item>
                         </transition-group>
-
                       </draggable>
                   </el-col>
                   <div class="widget-view-action widget-col-action" v-if="selectWidget.key == element.key">
@@ -51,6 +48,33 @@
                     <i class="iconfont icon-drag drag-widget"></i>
                   </div>
                 </el-row>
+            </template>
+            <!--表格-->
+            <template v-if="element.type == 'grid'">
+
+<!--              &lt;!&ndash;表格&ndash;&gt;-->
+<!--              <template v-if="element.type == 'table'">-->
+<!--                <el-row>-->
+<!--                  <el-col>-->
+<!--                    &lt;!&ndash;搜索条件控件&ndash;&gt;-->
+<!--                  </el-col>-->
+<!--                  <el-col>-->
+<!--                    &lt;!&ndash;表格控件&ndash;&gt;-->
+<!--                    <el-table v-bind="element.table.options" :data="element.table.data">-->
+<!--                      <el-table-column v-for="(item,index) in element.table.columns"-->
+<!--                                       :key="`table_column_${index}`"-->
+<!--                                       :label="item.title"-->
+<!--                                       :prop="item.key">-->
+<!--                      </el-table-column>-->
+<!--                    </el-table>-->
+<!--                  </el-col>-->
+<!--                  <el-col>-->
+<!--                    &lt;!&ndash;翻页控件&ndash;&gt;-->
+<!--                    <el-pagination style="margin-top: 20px;" v-bind="element.pagination">-->
+<!--                    </el-pagination>-->
+<!--                  </el-col>-->
+<!--                </el-row>-->
+<!--              </template>-->
             </template>
             <template v-else>
               <widget-form-item v-if="element && element.key"  :key="element.key" :element="element" :select.sync="selectWidget" :index="index" :data="data"></widget-form-item>

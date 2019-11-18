@@ -1,6 +1,6 @@
 <template>
-  <!--hideTitle-->
   <el-form-item :label="widget.name" :prop="widget.model">
+    <!--单行文本-->
     <template v-if="widget.type == 'input'" >
       <el-input
         v-if="widget.options.dataType == 'number' || widget.options.dataType == 'integer' || widget.options.dataType == 'float'"
@@ -23,7 +23,7 @@
         :class="[widget.className]"
       ></el-input>
     </template>
-
+    <!--多行文本-->
     <template v-if="widget.type == 'textarea'">
       <el-input type="textarea" :rows="5"
         v-model="dataModel"
@@ -34,7 +34,7 @@
         :class="[widget.className]"
       ></el-input>
     </template>
-
+    <!--计数器-->
     <template v-if="widget.type == 'number'">
       <el-input-number
         v-model="dataModel"
@@ -46,7 +46,7 @@
         :class="[widget.className]"
       ></el-input-number>
     </template>
-
+    <!--单选框组-->
     <template v-if="widget.type == 'radio'">
       <el-radio-group v-model="dataModel"
         :style="{width: widget.options.width}"
@@ -62,7 +62,7 @@
         </el-radio>
       </el-radio-group>
     </template>
-
+    <!--多选框组-->
     <template v-if="widget.type == 'checkbox'">
       <el-checkbox-group v-model="dataModel"
         :style="{width: widget.options.width}"
@@ -79,7 +79,7 @@
         </el-checkbox>
       </el-checkbox-group>
     </template>
-
+    <!--时间选择器-->
     <template v-if="widget.type == 'time'">
       <el-time-picker
         v-model="dataModel"
@@ -98,7 +98,7 @@
       >
       </el-time-picker>
     </template>
-
+    <!--日期选择器-->
     <template v-if="widget.type=='date'">
       <el-date-picker
         v-model="dataModel"
@@ -117,7 +117,7 @@
       >
       </el-date-picker>
     </template>
-
+    <!--评分-->
     <template v-if="widget.type =='rate'">
       <el-rate v-model="dataModel"
         :max="widget.options.max"
@@ -126,7 +126,7 @@
         :class="[widget.className]"
       ></el-rate>
     </template>
-
+    <!--颜色选择器-->
     <template v-if="widget.type == 'color'">
       <el-color-picker
         v-model="dataModel"
@@ -135,7 +135,7 @@
         :class="[widget.className]"
       ></el-color-picker>
     </template>
-
+    <!--下拉选择框-->
     <template v-if="widget.type == 'select'">
       <el-select
         v-model="dataModel"
@@ -150,7 +150,7 @@
         <el-option v-for="item in (widget.options.remote ? widget.options.remoteOptions : widget.options.options)" :key="item.value" :value="item.value" :label="widget.options.showLabel || widget.options.remote?item.label:item.value"></el-option>
       </el-select>
     </template>
-
+    <!--开关-->
     <template v-if="widget.type=='switch'">
       <el-switch
         v-model="dataModel"
@@ -159,7 +159,7 @@
       >
       </el-switch>
     </template>
-
+    <!--滑块-->
     <template v-if="widget.type=='slider'">
       <el-slider
         v-model="dataModel"
@@ -173,7 +173,7 @@
         :class="[widget.className]"
       ></el-slider>
     </template>
-
+    <!--图片-->
     <template v-if="widget.type=='imgupload'">
       <fm-upload
         v-model="dataModel"
@@ -194,7 +194,7 @@
       >
       </fm-upload>
     </template>
-
+    <!--编辑器-->
     <template v-if="widget.type == 'editor'">
       <vue-editor
         v-model="dataModel"
@@ -203,7 +203,7 @@
       >
       </vue-editor>
     </template>
-
+    <!--级联选择器-->
     <template v-if="widget.type == 'cascader'">
       <el-cascader
         v-model="dataModel"
@@ -217,7 +217,7 @@
 
       </el-cascader>
     </template>
-
+    <!--文字-->
     <template v-if="widget.type == 'text'">
         <div :class="[widget.className]"
              :style="{
