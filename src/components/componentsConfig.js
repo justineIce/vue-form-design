@@ -467,10 +467,13 @@ export const layoutComponents = [
     options:{
     },
     search:{
-
+      list:[],
+      config:{
+        inline:true
+      }
     },
     table:{
-      data:[{name:'小红',sex:12},{name:'小云',sex:13}],
+      data:[],
       columns:[
         {title:'列一',key:'column1'},
         {title:'列二',key:'column2'}
@@ -483,9 +486,9 @@ export const layoutComponents = [
     pagination:{
       background:true,
       pageSize:10,
-      total:10,
+      total:0,
       currentPage:1,
-      layout:'total, sizes, prev, pager, next, jumper',
+      layout:'total, prev, pager, next, jumper',
       disabled:false,
       hideOnSinglePage:false
     }

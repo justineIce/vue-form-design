@@ -53,6 +53,11 @@
                          :label="item.value">{{item.label}}</el-checkbox>
           </el-checkbox-group>
         </el-form-item>
+        <el-form-item label="翻页控件设置">
+          <el-checkbox style="display: block;" v-model="data.pagination.background">添加背景色</el-checkbox>
+          <el-checkbox style="display: block;" v-model="data.pagination.hideOnSinglePage">只有一页时是否隐藏</el-checkbox>
+          <el-input-number style="display: block;" v-model="data.pagination.pageSize">每页条数</el-input-number>
+        </el-form-item>
       </div>
       <el-form-item label="宽度" v-if="Object.keys(data.options).indexOf('width')>=0">
         <el-input v-model="data.options.width"></el-input>

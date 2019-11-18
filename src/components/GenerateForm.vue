@@ -30,7 +30,43 @@
             </el-col>
           </el-row>
         </template>
-
+        <!--表格-->
+        <template v-if="item.type == 'table'">
+          <el-row>
+            <el-col>
+              <el-form v-bind="item.search.config">
+                <template v-for="search in item.search.list" >
+                  <el-form-item v-if="search.type=='blank'" :label="search.name" :prop="search.model" :key="search.key">
+                    <slot :name="search.model" :model="models"></slot>
+                  </el-form-item>
+                  <genetate-form-item v-else
+                                      :key="search.key"
+                                      :models.sync="models"
+                                      :remote="remote"
+                                      :rules="rules"
+                                      :widget="search"
+                                      @input-change="onInputChange">
+                  </genetate-form-item>
+                </template>
+              </el-form>
+            </el-col>
+            <el-col>
+              <!--表格控件-->
+              <el-table v-bind="item.table.options" :data="item.table.data">
+                <el-table-column v-for="(item,index) in item.table.columns"
+                                 :key="`table_column_${index}`"
+                                 :label="item.title"
+                                 :prop="item.key">
+                </el-table-column>
+              </el-table>
+            </el-col>
+            <el-col>
+              <!--翻页控件-->
+              <el-pagination style="margin-top: 20px;" v-bind="item.pagination">
+              </el-pagination>
+            </el-col>
+          </el-row>
+        </template>
         <!--自定义-->
         <template v-else-if="item.type == 'blank'">
           <el-form-item :label="item.name" :prop="item.model" :key="item.key">
